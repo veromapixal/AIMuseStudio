@@ -66,5 +66,8 @@
         <input type="text" name="user_input" required>
         <input type="submit" value="Send">
     </form>
+    <form method="get" action="{{ url_for('clear') }}">
+        <input type="submit" value="Clear Chat">
+    </form>
 </body>
 </html>

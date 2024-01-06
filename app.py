@@ -11,7 +11,11 @@ messages = []
 @app.route("/home")
 def home():
     return render_template("index.html")
-
+@app.route("/clear")
+def clear():
+    global messages
+    messages = []
+    return redirect(url_for('chat'))
 @app.route("/text", methods=['GET', 'POST'])
 def chat():
     user_input = None
