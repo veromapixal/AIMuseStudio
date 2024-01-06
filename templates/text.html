@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .user-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            float: right;
+        }
+
+        .assistant-message {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat with GPT</h1>
+    <div class="chat-container">
+        <div class="assistant-message">
+            <p>Привет! Я GPT-3.5, интеллектуальный помощник, созданный OpenAI. Я разработан для помощи в ответах на вопросы и предоставлении информации. Чем могу помочь?</p>
+        </div>
+        {% for message in messages %}
+            {% if message['role'] == 'user' %}
+                <div class="user-message">
+                    <p>
+                        {% set user_content = message['content'].split('User:\n')[1] if 'User:\n' in message['content'] else message['content'] %}
+                        {{ user_content.split('GPT-3.5')[0] if 'GPT-3.5' in user_content else user_content }}
+                    </p>
+                </div>
+
+            {% elif message['role'] == 'assistant' %}
+                <div class="assistant-message">
+                    <p>{{ message['content'] }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <form method="post" action="{{ url_for('chat') }}">
+        <label for="user_input">You:</label>
+        <input type="text" name="user_input" required>
+        <input type="submit" value="Send">
+    </form>
+</body>
+</html>
