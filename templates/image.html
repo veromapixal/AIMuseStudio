@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
+    <title>Image Generation</title>
     <link href="{{ url_for('static', filename='index_new.css') }}" rel="stylesheet">
     <style>
         body {
             font-family: Ubuntu Condensed, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-    "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
-    "Source Han Sans CN", sans-serif;
-            background-color: #0e0b38; /* Цвет фона из основного файла */
+            Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+            "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+            "Source Han Sans CN", sans-serif;
+            background-color: #0e0b38;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            align-items: center; /* Центрирование контента по горизонтали */
         }
 
         .main-container {
@@ -103,83 +103,108 @@
           gap: 80px;
           position: absolute;
           width: 100%;
-          max-width: 851px; /* Установите максимальную ширину, чтобы избежать переполнения */
+          max-width: 851px;
           height: 44px;
           top: 50%;
-          left: 50%; /* Используйте 50% для центрирования */
+          left: 50%;
           transform: translate(-50%, -50%);
           z-index: 30;
         }
 
         .frame-3 button {
-          padding: 10px 20px; /* Добавьте отступы, чтобы кнопки выглядели хорошо */
-          background-color: #0a082d; /* Цвет фона кнопок (замените на свой цвет) */
-          color: white; /* Цвет текста на кнопках (замените на свой цвет) */
+          padding: 10px 20px;
+          background-color: #0a082d;
+          color: white;
           border: none;
-          border-radius: 5px; /* Закруглите углы кнопок */
+          border-radius: 5px;
           cursor: pointer;
           font-size: 18px;
           transition: background-color 0.3s;
         }
 
         .frame-3 button:hover {
-          background-color: #1d1a57; /* Измененный цвет фона при наведении (замените на свой цвет) */
+          background-color: #1d1a57;
         }
 
-        .content {
-          display: none;
+        h1, h2 {
+            color: #4B93FD;
+            text-align: center;
+            margin-top: 20px;
         }
 
-        .chat-container {
-            max-width: 851px; /* Максимальная ширина, как в основном файле */
-            margin: auto;
-            overflow: hidden;
-            background-color: #0e0b38; /* Цвет фона, подобранный к основному файлу */
-            padding: 10px; /* Добавлен отступ для контейнера */
-        }
-
-        .user-message, .assistant-message {
-            color: white;
-            padding: 10px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-        }
-
-        .user-message {
-            background-color: #4B93FD;
-            float: right;
-        }
-
-        .assistant-message {
-            background-color: #6646D8;
-            float: left;
-        }
-
-        .input-container {
+        form {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center; /* Центрируем содержимое по горизонтали и вертикали */
-            padding: 10px;
-            background-color: #0a082d;
+            margin-top: 20px;
         }
 
-        input[name="user_input"] {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin-right: 10px;
-            background-color: #0e0b38;
+        label {
+            margin-bottom: 10px;
             color: white;
+        }
+
+        input[type="text"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #0a082d;
+            color: white;
+            width: 200px; /* Ширина поля ввода текста */
+            text-align: center;
         }
 
         input[type="submit"] {
-            background-color: #1d1a57;
+            padding: 10px 20px;
+            background-color: #4B93FD;
             color: white;
             border: none;
-            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1d1a57;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .download-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4B93FD;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .download-button:hover {
+            background-color: #1d1a57;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            color: #4B93FD;
+            text-decoration: none;
+            text-align: center;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #1d1a57;
         }
     </style>
 </head>
@@ -205,35 +230,32 @@
         </div>
       </div>
     </div>
+    <h1>Генерация изображения</h1>
 
-    <div class="chat-container">
-        <div class="assistant-message">
-            <p>Привет! Я GPT-3.5, интеллектуальный помощник, созданный OpenAI. Я разработан для помощи в ответах на вопросы и предоставлении информации. Чем могу помочь?</p>
-        </div>
-        {% for message in messages %}
-            {% if message['role'] == 'user' %}
-                <div class="user-message">
-                    <p>
-                        {% set user_content = message['content'].split('User:\n')[1] if 'User:\n' in message['content'] else message['content'] %}
-                        {{ user_content.split('GPT-3.5')[0] if 'GPT-3.5' in user_content else user_content }}
-                    </p>
-                </div>
-            {% elif message['role'] == 'assistant' %}
-                <div class="assistant-message">
-                    <p>{{ message['content'] }}</p>
-                </div>
-            {% endif %}
+    {% if prompt %}
+        <h2>Результат генерации по запросу: "{{ prompt }}"</h2>
+
+        {% for image_file in image_files %}
+            <img src="{{ url_for('static', filename='images/' + image_file) }}" alt="Сгенерированное изображение:">
+            <br>
+            {% set filename = image_file.split('/')[-1] %}
+            <a href="{{ url_for('static', filename='images/' + image_file) }}" class="download-button" download>Скачать изображение</a>
+            <br>
         {% endfor %}
-    </div>
 
-    <div class="input-container">
-        <form method="post" action="{{ url_for('chat') }}">
-            <input type="text" name="user_input" required placeholder="Введите ваш запрос...">
-            <input type="submit" value="Отправить">
+        <form action="{{ url_for('generate_images') }}" method="post">
+            <input type="hidden" name="prompt" value="{{ prompt }}">
+            <input type="submit" value="Повтор">
         </form>
-        <form method="get" action="{{ url_for('clear') }}">
-            <input type="submit" value="Очистить чат">
+        <form action="{{ url_for('generate_images') }}" method="get">
+            <input type="submit" value="Новый prompt">
         </form>
-    </div>
+    {% else %}
+        <form action="{{ url_for('generate_images') }}" method="post">
+            <label for="prompt">Введите prompt</label>
+            <input type="text" id="prompt" name="prompt" required>
+            <input type="submit" value="Generate Images">
+        </form>
+    {% endif %}
 </body>
 </html>
