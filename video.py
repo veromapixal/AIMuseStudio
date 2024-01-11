@@ -8,7 +8,7 @@ def remove_background(input_path, output_path):
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     # Создаем VideoWriter
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # или используйте другой кодек, поддерживаемый вашей системой
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  
     video_writer = cv2.VideoWriter(output_path, fourcc, 30, (width, height))
 
     while cap.isOpened():
