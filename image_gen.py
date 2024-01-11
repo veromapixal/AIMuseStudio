@@ -3,7 +3,6 @@ import json
 import time
 import base64
 from random import randint as r
-from random import choice as ch
 import os
 
 class Text2ImageAPI:
@@ -82,5 +81,7 @@ def main():
             print(f"сделано {j + 1}")
 
         print("завершено")
+
+
 if __name__ == "__main__":
     main()

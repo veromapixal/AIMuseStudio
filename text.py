@@ -3,11 +3,6 @@ import g4f
 def ask_gpt(messages: list) -> str:
     print(messages)
     try:
-
-        # Проверка на пустой массив сообщений
-        if not messages:
-            return "Hello! I'm your AI assistant. How can I help you today?"
-
         response = g4f.ChatCompletion.create(
             model=g4f.models.gpt_35_turbo,
             messages=messages
